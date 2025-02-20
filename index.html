@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breaking News</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #ffffff; /* Kunduzgi rejimda yorqin rang */
+            color: #333;
+        }
+
+        /* Breaking News'ni joylash */
+        .headline {
+            text-align: center;
+            font-size: 50px;
+            color: beige;
+            background: linear-gradient(to right, rgb(2, 0, 124), rgb(197, 0, 0)); /* Yashirin gradient fon */
+            padding: 10px 0;
+            border-radius: 10px;
+        }
+
+        .headline span {
+            display: inline;
+        }
+
+        /* Modalni CSS */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.5s ease-out;
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 60%;
+            max-width: 700px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            animation: fadeInContent 1s forwards;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* Tungi rejimga o'zgartirish */
+        body.night-mode {
+            background-color: #2C3E50;
+            color: #ECF0F1;
+        }
+
+        body.night-mode .modal-content {
+            background-color: #2C3E50;
+            color: #ECF0F1;
+        }
+
+        body.night-mode .modal {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        /* Kunduzgi va tungi rejim tugmasi animatsiyasi */
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .mode-toggle.on {
+            background-color: #4CAF50;
+            transform: translateX(20px); /* Animatsiya: O'ngga surish */
+        }
+
+        .mode-toggle.off {
+            background-color: #E53935;
+            transform: translateX(0); /* Animatsiya: Chapga surish */
+        }
+
+        /* Tugma ustidagi ikonani yangilash */
+        .mode-toggle.on::before {
+            content: "🌞";
+        }
+
+        .mode-toggle.off::before {
+            content: "🌙";
+        }
+
+        /* Modal animatsiyasi */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Rasm animatsiyasi */
+        img {
+            width: 363px;
+            height: 210px;
+            border: 5px solid rgba(0, 0, 0, 0.856);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="day-mode">
+    <!-- Kunduzgi va tungi rejim tugmasi -->
+    <button class="mode-toggle off" onclick="toggleMode()"></button>
+
+    <!-- Breaking News -->
+    <div class="headline">
+        <span>Breaking</span>
+        <span>News</span>
+    </div>
+
+    <hr color="gray" size="5px">
+
+    <marquee behavior="scroll" direction="">Assalomu alaykum. Saytga xush kelibsiz, saytda eng so'nggi va dolzarb yangiliklar joylab boriladi</marquee>
+
+    <hr color="gray" size="5px"><br>
+
+    <div style="display: inline-block;">
+        <img src="football.jpg" alt="Khusanov Manchester Cityga o'tdi(mi?)" title="Khusanov Manchester Cityga o'tdi(mi?)" onclick="openModal('modal1')" />
+        <img src="qidiruv.jpg" alt="Xalqaro qidiruvda bo'lgan O'zbekistonlik Misrda ushlandi" title="Xalqaro qidiruvda bo'lgan O'zbekistonlik Misrda ushlandi" onclick="openModal('modal2')" />
+        <img src="tolibon.jpg" alt="Tolibon delegatsiyasi Yaponiyaga bordi" title="Tolibon delegatsiyasi Yaponiyaga bordi" onclick="openModal('modal3')" />
+        <img src="shm.jpg" alt="Mirziyoyev Quvayt Bosh vazirini qabul qildi" title="Mirziyoyev Quvayt Bosh vazirini qabul qildi" onclick="openModal('modal4')" />
+
+        <!-- Modal 1 -->
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal1')">&times;</span>
+                <h2>Abduqodir Xusanov Manchester Cityga o'tdi</h2>
+                <p>So'nggi yangiliklarga qaraganda Abduqodir Xusanov Manchester Cityga o'tishi kutilayotgandi. Bu transfer o'z nihoyasiga yetdi. Shaxarliklar Xusanovni o'z safiga qo'shishdi...</p>
+            </div>
+        </div>
+
+        <!-- Modal 2 -->
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal2')">&times;</span>
+                <h2>Xalqaro qidiruvda bo'lgan O'zbekistonlik Misrda ushlandi</h2>
+                <p>O'zbekistonlik shaxs xalqaro qidiruvda bo'lib, Misrda ushlandi. U ilgari sodir etgan jinoyatlar uchun javobgar hisoblanadi...</p>
+            </div>
+        </div>
+
+        <!-- Modal 3 -->
+        <div id="modal3" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal3')">&times;</span>
+                <h2>“Tolibon” delegatsiyasi Yaponiyaga bordi</h2>
+                <p>“Tolibon” delegatsiyasi Yaponiyada muhim muzokaralar o'tkazish uchun tashrif buyurdi. Mazkur uchrashuvlar diplomatik ahamiyatga ega...</p>
+            </div>
+        </div>
+
+        <!-- Modal 4 -->
+        <div id="modal4" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal4')">&times;</span>
+                <h2>Mirziyoyev Quvayt Bosh vazirini qabul qildi</h2>
+                <p>Prezident Shavkat Mirziyoyev Quvayt Bosh vazirini qabul qildi. Ular ikki tomonlama hamkorlikni yanada rivojlantirish masalalarini muhokama qilishdi...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Modalni ochish funksiyasi
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        // Modalni yopish funksiyasi
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Kunduzgi va tungi rejimni almashtirish
+        function toggleMode() {
+            var body = document.body;
+            var modeButton = document.querySelector(".mode-toggle");
+
+            // Kunduzgi va tungi rejimlarni almashtirish
+            if (body.classList.contains("day-mode")) {
+                body.classList.remove("day-mode");
+                body.classList.add("night-mode");
+                modeButton.classList.remove("off");
+                modeButton.classList.add("on");
+            } else {
+                body.classList.remove("night-mode");
+                body.classList.add("day-mode");
+                modeButton.classList.remove("on");
+                modeButton.classList.add("off");
+            }
+        }
+
+        // Modalni tashqarisiga bosganda yopish
+        window.onclick = function(event) {
+            var modals = document.getElementsByClassName("modal");
+            for (var i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
